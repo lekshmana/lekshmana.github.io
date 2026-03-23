@@ -8,14 +8,27 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0d0d0d;
-    --surface: #141414;
-    --surface2: #1c1c1c;
+    --bg: #1e1e1e;
+    --surface: #262626;
+    --surface2: #2e2e2e;
     --accent: #c8a96e;
     --accent2: #7eb8c8;
-    --text: #e8e2d8;
-    --muted: #6b6560;
-    --border: #242424;
+    --text: #f0ece4;
+    --muted: #9e9790;
+    --border: #383838;
+    --nav-bg: rgba(30,30,30,0.88);
+  }
+
+  html.light {
+    --bg: #f5f2ed;
+    --surface: #ffffff;
+    --surface2: #edeae4;
+    --accent: #a07840;
+    --accent2: #4a90a4;
+    --text: #1a1a1a;
+    --muted: #6b6258;
+    --border: #ddd8d0;
+    --nav-bg: rgba(245,242,237,0.92);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -35,7 +48,7 @@
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; align-items: center; justify-content: space-between;
     padding: 1.2rem 3rem;
-    background: rgba(13,13,13,0.85);
+    background: var(--nav-bg);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
   }
@@ -446,6 +459,39 @@
     text-transform: uppercase;
   }
 
+  /* ── THEME TOGGLE ── */
+  .theme-toggle {
+    display: flex; align-items: center; gap: 0.6rem;
+    cursor: pointer; background: none; border: none; padding: 0;
+  }
+  .toggle-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    transition: color 0.2s;
+    user-select: none;
+  }
+  .toggle-track {
+    width: 38px; height: 20px;
+    background: var(--border);
+    border-radius: 999px;
+    position: relative;
+    transition: background 0.3s;
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+  }
+  .toggle-track.active { background: var(--accent); }
+  .toggle-thumb {
+    position: absolute; top: 2px; left: 2px;
+    width: 14px; height: 14px;
+    background: var(--text);
+    border-radius: 50%;
+    transition: transform 0.3s, background 0.2s;
+  }
+  .toggle-track.active .toggle-thumb { transform: translateX(18px); }
+
   /* ── SCROLL REVEAL ── */
   .reveal {
     opacity: 0;
@@ -482,6 +528,12 @@
     <li><a href="#education">Bildung</a></li>
     <li><a href="#contact">Kontakt</a></li>
   </ul>
+  <button class="theme-toggle" id="themeToggle" aria-label="Theme wechseln">
+    <span class="toggle-label" id="toggleLabel">Hell</span>
+    <div class="toggle-track" id="toggleTrack">
+      <div class="toggle-thumb"></div>
+    </div>
+  </button>
 </nav>
 
 <!-- HERO -->
@@ -770,6 +822,19 @@
 </footer>
 
 <script>
+  // Theme toggle
+  const toggle = document.getElementById('themeToggle');
+  const track = document.getElementById('toggleTrack');
+  const label = document.getElementById('toggleLabel');
+  let isLight = false;
+
+  toggle.addEventListener('click', () => {
+    isLight = !isLight;
+    document.documentElement.classList.toggle('light', isLight);
+    track.classList.toggle('active', isLight);
+    label.textContent = isLight ? 'Dunkel' : 'Hell';
+  });
+
   // Scroll reveal
   const reveals = document.querySelectorAll('.reveal');
   const obs = new IntersectionObserver(entries => {
@@ -782,6 +847,5 @@
   }, { threshold: 0.1 });
   reveals.forEach(el => obs.observe(el));
 </script>
-
 </body>
 </html>
