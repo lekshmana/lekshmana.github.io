@@ -8,453 +8,123 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0d0d0d;
-    --surface: #141414;
-    --surface2: #1c1c1c;
-    --accent: #c8a96e;
-    --accent2: #7eb8c8;
-    --text: #e8e2d8;
-    --muted: #6b6560;
-    --border: #242424;
+    --bg: #1e1e1e; --surface: #262626; --surface2: #2e2e2e;
+    --accent: #c8a96e; --accent2: #7eb8c8; --text: #f0ece4;
+    --muted: #9e9790; --border: #383838; --nav-bg: rgba(30,30,30,0.88);
   }
-
+  html.light {
+    --bg: #f5f2ed; --surface: #ffffff; --surface2: #edeae4;
+    --accent: #a07840; --accent2: #4a90a4; --text: #1a1a1a;
+    --muted: #6b6258; --border: #ddd8d0; --nav-bg: rgba(245,242,237,0.92);
+  }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; font-weight: 300; overflow-x: hidden; transition: background 0.3s, color 0.3s; }
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Outfit', sans-serif;
-    font-weight: 300;
-    overflow-x: hidden;
-  }
-
-  /* ── NAV ── */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; align-items: center; justify-content: space-between;
-    padding: 1.2rem 3rem;
-    background: rgba(13,13,13,0.85);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
+    padding: 1.2rem 3rem; background: var(--nav-bg);
+    backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); gap: 1rem;
   }
-  .nav-logo {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.8rem;
-    letter-spacing: 0.12em;
-    color: var(--accent);
-    text-transform: uppercase;
-  }
+  .nav-logo { font-family: 'DM Mono', monospace; font-size: 0.8rem; letter-spacing: 0.12em; color: var(--accent); text-transform: uppercase; white-space: nowrap; }
   .nav-links { display: flex; gap: 2rem; list-style: none; }
-  .nav-links a {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.72rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
+  .nav-links a { font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
   .nav-links a:hover { color: var(--text); }
+  .nav-controls { display: flex; align-items: center; gap: 1rem; flex-shrink: 0; }
 
-  /* ── HERO ── */
-  #hero {
-    min-height: 100vh;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    position: relative;
-    overflow: hidden;
-  }
+  .lang-toggle { display: flex; align-items: center; border: 1px solid var(--border); border-radius: 999px; overflow: hidden; }
+  .lang-btn { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.3rem 0.75rem; background: none; border: none; cursor: pointer; color: var(--muted); transition: all 0.2s; }
+  .lang-btn.active { background: var(--accent); color: #0d0d0d; }
 
-  .hero-left {
-    display: flex; flex-direction: column; justify-content: center;
-    padding: 8rem 4rem 8rem 6rem;
-    position: relative; z-index: 2;
-  }
-  .hero-tag {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.72rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 1.5rem;
-  }
-  h1 {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(3rem, 5vw, 5.5rem);
-    line-height: 1.05;
-    font-weight: 400;
-    color: var(--text);
-    margin-bottom: 0.3rem;
-  }
-  h1 em {
-    font-style: italic;
-    color: var(--accent);
-  }
-  .hero-subtitle {
-    font-size: 1rem;
-    color: var(--muted);
-    margin-top: 1.5rem;
-    max-width: 38ch;
-    line-height: 1.7;
-  }
-  .hero-cta {
-    display: flex; gap: 1rem; margin-top: 3rem; flex-wrap: wrap;
-  }
-  .btn {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    padding: 0.75rem 1.8rem;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    text-decoration: none;
-    border: 1px solid;
-    transition: all 0.25s;
-    cursor: pointer;
-  }
-  .btn-primary {
-    background: var(--accent); color: #0d0d0d;
-    border-color: var(--accent);
-  }
+  .theme-toggle { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; background: none; border: none; padding: 0; }
+  .toggle-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); user-select: none; }
+  .toggle-track { width: 36px; height: 19px; background: var(--border); border-radius: 999px; position: relative; transition: background 0.3s; flex-shrink: 0; }
+  .toggle-track.active { background: var(--accent); }
+  .toggle-thumb { position: absolute; top: 2px; left: 2px; width: 13px; height: 13px; background: var(--text); border-radius: 50%; transition: transform 0.3s; }
+  .toggle-track.active .toggle-thumb { transform: translateX(17px); }
+
+  #hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; position: relative; overflow: hidden; }
+  .hero-left { display: flex; flex-direction: column; justify-content: center; padding: 8rem 4rem 8rem 6rem; position: relative; z-index: 2; }
+  .hero-tag { font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.5rem; }
+  h1 { font-family: 'DM Serif Display', serif; font-size: clamp(3rem, 5vw, 5.5rem); line-height: 1.05; font-weight: 400; color: var(--text); margin-bottom: 0.3rem; }
+  h1 em { font-style: italic; color: var(--accent); }
+  .hero-subtitle { font-size: 1rem; color: var(--muted); margin-top: 1.5rem; max-width: 38ch; line-height: 1.7; }
+  .hero-cta { display: flex; gap: 1rem; margin-top: 3rem; flex-wrap: wrap; }
+  .btn { display: inline-flex; align-items: center; padding: 0.75rem 1.8rem; font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; border: 1px solid; transition: all 0.25s; cursor: pointer; }
+  .btn-primary { background: var(--accent); color: #0d0d0d; border-color: var(--accent); }
   .btn-primary:hover { background: transparent; color: var(--accent); }
   .btn-outline { color: var(--text); border-color: var(--border); background: transparent; }
   .btn-outline:hover { border-color: var(--text); }
 
-  .hero-right {
-    position: relative;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .hero-graphic {
-    position: absolute; inset: 0;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .car-diagram {
-    width: 90%; max-width: 560px;
-    opacity: 0.18;
-  }
+  .hero-right { position: relative; display: flex; align-items: center; justify-content: center; }
+  .hero-graphic { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+  .car-diagram { width: 90%; max-width: 560px; opacity: 0.18; }
+  .hero-stats { position: absolute; bottom: 4rem; right: 4rem; display: flex; flex-direction: column; gap: 1.8rem; }
+  .stat { text-align: right; border-right: 2px solid var(--accent); padding-right: 1.2rem; }
+  .stat-number { font-family: 'DM Serif Display', serif; font-size: 2.4rem; color: var(--text); line-height: 1; }
+  .stat-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-top: 0.2rem; }
 
-  .hero-stats {
-    position: absolute; bottom: 4rem; right: 4rem;
-    display: flex; flex-direction: column; gap: 1.8rem;
-  }
-  .stat {
-    text-align: right;
-    border-right: 2px solid var(--accent);
-    padding-right: 1.2rem;
-  }
-  .stat-number {
-    font-family: 'DM Serif Display', serif;
-    font-size: 2.4rem;
-    color: var(--text);
-    line-height: 1;
-  }
-  .stat-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-top: 0.2rem;
-  }
-
-  /* ── SECTION SHARED ── */
   section { padding: 7rem 6rem; }
+  .section-tag { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+  h2 { font-family: 'DM Serif Display', serif; font-size: clamp(2rem, 3.5vw, 3.2rem); font-weight: 400; color: var(--text); line-height: 1.1; margin-bottom: 3rem; }
 
-  .section-tag {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 1rem;
-  }
-  h2 {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(2rem, 3.5vw, 3.2rem);
-    font-weight: 400;
-    color: var(--text);
-    line-height: 1.1;
-    margin-bottom: 3rem;
-  }
-
-  /* ── ABOUT ── */
-  #about {
-    background: var(--surface);
-    display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: 6rem;
-    align-items: start;
-  }
+  #about { background: var(--surface); display: grid; grid-template-columns: 1fr 1.2fr; gap: 6rem; align-items: start; }
   .about-body { line-height: 1.9; color: var(--muted); font-size: 1rem; }
   .about-body p + p { margin-top: 1.2rem; }
   .about-body strong { color: var(--text); font-weight: 500; }
-
   .about-skills { display: flex; flex-direction: column; gap: 1rem; }
   .skill-item { display: flex; flex-direction: column; gap: 0.4rem; }
-  .skill-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    display: flex; justify-content: space-between;
-  }
-  .skill-bar {
-    height: 2px;
-    background: var(--border);
-    position: relative;
-    overflow: hidden;
-  }
-  .skill-fill {
-    position: absolute; top: 0; left: 0; bottom: 0;
-    background: var(--accent);
-    animation: fillBar 1.2s ease-out both;
-  }
+  .skill-label { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); display: flex; justify-content: space-between; }
+  .skill-bar { height: 2px; background: var(--border); position: relative; overflow: hidden; }
+  .skill-fill { position: absolute; top: 0; left: 0; bottom: 0; background: var(--accent); animation: fillBar 1.2s ease-out both; }
   @keyframes fillBar { from { width: 0; } }
+  .software-grid { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 2rem; }
+  .sw-tag { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.08em; padding: 0.35rem 0.8rem; border: 1px solid var(--border); color: var(--muted); text-transform: uppercase; }
 
-  .software-grid {
-    display: flex; flex-wrap: wrap; gap: 0.6rem;
-    margin-top: 2rem;
-  }
-  .sw-tag {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.68rem;
-    letter-spacing: 0.08em;
-    padding: 0.35rem 0.8rem;
-    border: 1px solid var(--border);
-    color: var(--muted);
-    text-transform: uppercase;
-  }
-
-  /* ── EXPERIENCE ── */
   #experience { background: var(--bg); }
-
-  .timeline { display: flex; flex-direction: column; gap: 0; }
-  .timeline-item {
-    display: grid;
-    grid-template-columns: 200px 1px 1fr;
-    gap: 0 2.5rem;
-    padding-bottom: 3.5rem;
-    position: relative;
-  }
-  .timeline-date {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.08em;
-    color: var(--muted);
-    padding-top: 0.15rem;
-    text-align: right;
-  }
-  .timeline-line {
-    width: 1px;
-    background: var(--border);
-    position: relative;
-  }
-  .timeline-line::before {
-    content: '';
-    position: absolute; top: 0.35rem; left: 50%;
-    transform: translateX(-50%);
-    width: 7px; height: 7px;
-    background: var(--accent);
-    border-radius: 50%;
-  }
+  .timeline { display: flex; flex-direction: column; }
+  .timeline-item { display: grid; grid-template-columns: 200px 1px 1fr; gap: 0 2.5rem; padding-bottom: 3.5rem; }
+  .timeline-date { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; color: var(--muted); padding-top: 0.15rem; text-align: right; }
+  .timeline-line { width: 1px; background: var(--border); position: relative; }
+  .timeline-line::before { content: ''; position: absolute; top: 0.35rem; left: 50%; transform: translateX(-50%); width: 7px; height: 7px; background: var(--accent); border-radius: 50%; }
   .timeline-item:last-child .timeline-line { background: transparent; }
-  .timeline-content { padding-top: 0; }
-  .timeline-company {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--accent2);
-    margin-bottom: 0.3rem;
-  }
-  .timeline-role {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.3rem;
-    color: var(--text);
-    margin-bottom: 0.8rem;
-  }
-  .timeline-bullets {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.45rem;
-  }
-  .timeline-bullets li {
-    font-size: 0.88rem;
-    color: var(--muted);
-    line-height: 1.6;
-    padding-left: 1rem;
-    position: relative;
-  }
-  .timeline-bullets li::before {
-    content: '–';
-    position: absolute; left: 0;
-    color: var(--accent);
-  }
+  .timeline-company { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent2); margin-bottom: 0.3rem; }
+  .timeline-role { font-family: 'DM Serif Display', serif; font-size: 1.3rem; color: var(--text); margin-bottom: 0.8rem; }
+  .timeline-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.45rem; }
+  .timeline-bullets li { font-size: 0.88rem; color: var(--muted); line-height: 1.6; padding-left: 1rem; position: relative; }
+  .timeline-bullets li::before { content: '–'; position: absolute; left: 0; color: var(--accent); }
 
-  /* ── PROJECTS ── */
-  #projects {
-    background: var(--surface);
-  }
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5px;
-    background: var(--border);
-    border: 1px solid var(--border);
-  }
-  .project-card {
-    background: var(--surface);
-    padding: 2.5rem;
-    transition: background 0.25s;
-    cursor: default;
-  }
+  #projects { background: var(--surface); }
+  .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5px; background: var(--border); border: 1px solid var(--border); }
+  .project-card { background: var(--surface); padding: 2.5rem; transition: background 0.25s; }
   .project-card:hover { background: var(--surface2); }
-  .project-num {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.12em;
-    color: var(--muted);
-    margin-bottom: 1.2rem;
-  }
-  .project-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.4rem;
-    color: var(--text);
-    margin-bottom: 0.8rem;
-    line-height: 1.2;
-  }
-  .project-desc {
-    font-size: 0.85rem;
-    color: var(--muted);
-    line-height: 1.7;
-  }
-  .project-tag {
-    display: inline-block;
-    margin-top: 1.5rem;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--accent);
-    border-top: 1px solid var(--accent);
-    padding-top: 0.5rem;
-  }
+  .project-num { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 1.2rem; }
+  .project-title { font-family: 'DM Serif Display', serif; font-size: 1.3rem; color: var(--text); margin-bottom: 0.8rem; line-height: 1.2; }
+  .project-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+  .project-tag { display: inline-block; margin-top: 1.5rem; font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); border-top: 1px solid var(--accent); padding-top: 0.5rem; }
 
-  /* ── PATENT ── */
-  #patent {
-    background: var(--bg);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6rem;
-    align-items: center;
-  }
-  .patent-visual {
-    position: relative;
-    height: 320px;
-    border: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-    overflow: hidden;
-  }
-  .patent-visual svg { opacity: 0.5; }
-  .patent-number {
-    position: absolute; bottom: 1.2rem; right: 1.2rem;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.1em;
-    color: var(--muted);
-  }
-  .patent-body { color: var(--muted); line-height: 1.8; font-size: 0.95rem; }
-  .patent-body p + p { margin-top: 1rem; }
-
-  /* ── EDUCATION ── */
-  #education {
-    background: var(--surface);
-  }
+  #education { background: var(--bg); }
   .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
-  .edu-card {
-    border: 1px solid var(--border);
-    padding: 2.5rem;
-    transition: border-color 0.25s;
-  }
+  .edu-card { border: 1px solid var(--border); padding: 2.5rem; transition: border-color 0.25s; }
   .edu-card:hover { border-color: var(--accent); }
-  .edu-degree {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.4rem;
-    color: var(--text);
-    margin-bottom: 0.5rem;
-  }
-  .edu-school {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.72rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 0.4rem;
-  }
-  .edu-period {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.68rem;
-    color: var(--muted);
-    margin-bottom: 1.2rem;
-  }
+  .edu-degree { font-family: 'DM Serif Display', serif; font-size: 1.4rem; color: var(--text); margin-bottom: 0.5rem; }
+  .edu-school { font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem; }
+  .edu-period { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--muted); margin-bottom: 1.2rem; }
   .edu-topics { color: var(--muted); font-size: 0.85rem; line-height: 1.7; }
 
-  /* ── CONTACT ── */
-  #contact {
-    background: var(--bg);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: center;
-  }
+  #contact { background: var(--surface); display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
   .contact-links { display: flex; flex-direction: column; gap: 1.2rem; }
-  .contact-link {
-    display: flex; align-items: center; gap: 1rem;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.8rem;
-    color: var(--muted);
-    text-decoration: none;
-    transition: color 0.2s;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 1.2rem;
-  }
+  .contact-link { display: flex; align-items: center; gap: 1rem; font-family: 'DM Mono', monospace; font-size: 0.8rem; color: var(--muted); text-decoration: none; transition: color 0.2s; border-bottom: 1px solid var(--border); padding-bottom: 1.2rem; }
   .contact-link:hover { color: var(--text); }
-  .contact-icon {
-    width: 32px; height: 32px;
-    border: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1rem;
-    flex-shrink: 0;
-  }
+  .contact-icon { width: 32px; height: 32px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
 
-  /* ── FOOTER ── */
-  footer {
-    background: var(--surface);
-    padding: 1.8rem 6rem;
-    display: flex; justify-content: space-between; align-items: center;
-    border-top: 1px solid var(--border);
-  }
-  footer span {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.1em;
-    color: var(--muted);
-    text-transform: uppercase;
-  }
+  footer { background: var(--surface2); padding: 1.8rem 6rem; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); }
+  footer span { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; color: var(--muted); text-transform: uppercase; }
 
-  /* ── SCROLL REVEAL ── */
-  .reveal {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
   .reveal.visible { opacity: 1; transform: none; }
 
-  /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
     nav { padding: 1rem 1.5rem; }
     .nav-links { display: none; }
@@ -462,44 +132,50 @@
     .hero-left { padding: 8rem 2rem 4rem; }
     .hero-right { display: none; }
     section { padding: 5rem 2rem; }
-    #about, #patent, #contact { grid-template-columns: 1fr; gap: 3rem; }
+    #about, #contact { grid-template-columns: 1fr; gap: 3rem; }
     .projects-grid { grid-template-columns: 1fr; }
     .edu-grid { grid-template-columns: 1fr; }
-    footer { padding: 1.5rem 2rem; flex-direction: column; gap: 0.5rem; }
+    footer { padding: 1.5rem 2rem; flex-direction: column; gap: 0.5rem; text-align: center; }
     .timeline-item { grid-template-columns: 90px 1px 1fr; gap: 0 1.5rem; }
   }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <div class="nav-logo">LP · Portfolio</div>
   <ul class="nav-links">
-    <li><a href="#about">Profil</a></li>
-    <li><a href="#experience">Erfahrung</a></li>
-    <li><a href="#projects">Projekte</a></li>
-    <li><a href="#education">Bildung</a></li>
-    <li><a href="#contact">Kontakt</a></li>
+    <li><a href="#about" data-de="Profil" data-en="Profile">Profil</a></li>
+    <li><a href="#experience" data-de="Erfahrung" data-en="Experience">Erfahrung</a></li>
+    <li><a href="#projects" data-de="Projekte" data-en="Projects">Projekte</a></li>
+    <li><a href="#education" data-de="Bildung" data-en="Education">Bildung</a></li>
+    <li><a href="#contact" data-de="Kontakt" data-en="Contact">Kontakt</a></li>
   </ul>
+  <div class="nav-controls">
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="btnDE">DE</button>
+      <button class="lang-btn" id="btnEN">EN</button>
+    </div>
+    <button class="theme-toggle" id="themeToggle" aria-label="Theme wechseln">
+      <span class="toggle-label" id="toggleLabel">Hell</span>
+      <div class="toggle-track" id="toggleTrack"><div class="toggle-thumb"></div></div>
+    </button>
+  </div>
 </nav>
 
 <!-- HERO -->
 <section id="hero">
   <div class="hero-left">
-    <p class="hero-tag">Fahrzeugarchitektur · Ergonomie · Packaging</p>
+    <p class="hero-tag" data-de="Fahrzeugarchitektur · Ergonomie · Packaging" data-en="Vehicle Architecture · Ergonomics · Packaging">Fahrzeugarchitektur · Ergonomie · Packaging</p>
     <h1>Lekshmana<br><em>Perumal</em></h1>
-    <p class="hero-subtitle">
-      OEM-Ingenieur mit 3,5+ Jahren Erfahrung in Gesamtfahrzeug- und Innenraumarchitektur. Masterstudent Maschinenbau an der TU Bergakademie Freiberg.
-    </p>
+    <p class="hero-subtitle" data-de="OEM-Ingenieur mit 3,5+ Jahren Erfahrung in Gesamtfahrzeug- und Innenraumarchitektur. Masterstudent Maschinenbau an der TU Bergakademie Freiberg." data-en="OEM engineer with 3.5+ years of experience in overall vehicle and interior architecture. Master's student in Mechanical Engineering at TU Bergakademie Freiberg.">OEM-Ingenieur mit 3,5+ Jahren Erfahrung in Gesamtfahrzeug- und Innenraumarchitektur. Masterstudent Maschinenbau an der TU Bergakademie Freiberg.</p>
     <div class="hero-cta">
-      <a href="#contact" class="btn btn-primary">Kontakt aufnehmen</a>
-      <a href="#experience" class="btn btn-outline">Erfahrung ansehen</a>
+      <a href="#contact" class="btn btn-primary" data-de="Kontakt aufnehmen" data-en="Get in touch">Kontakt aufnehmen</a>
+      <a href="#experience" class="btn btn-outline" data-de="Erfahrung ansehen" data-en="View experience">Erfahrung ansehen</a>
     </div>
   </div>
   <div class="hero-right">
     <div class="hero-graphic">
-      <!-- Abstract car cross-section diagram -->
       <svg class="car-diagram" viewBox="0 0 560 300" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="20" y="140" width="520" height="80" rx="4" stroke="#c8a96e" stroke-width="1.5"/>
         <path d="M 80 140 Q 140 60 220 60 L 340 60 Q 420 60 480 140" stroke="#c8a96e" stroke-width="1.5" fill="none"/>
@@ -507,11 +183,9 @@
         <circle cx="120" cy="222" r="20" stroke="#c8a96e" stroke-width="1"/>
         <circle cx="440" cy="222" r="38" stroke="#c8a96e" stroke-width="1.5"/>
         <circle cx="440" cy="222" r="20" stroke="#c8a96e" stroke-width="1"/>
-        <!-- interior lines -->
         <line x1="180" y1="140" x2="180" y2="100" stroke="#c8a96e" stroke-width="0.8" stroke-dasharray="4 3"/>
         <line x1="280" y1="140" x2="280" y2="95" stroke="#c8a96e" stroke-width="0.8" stroke-dasharray="4 3"/>
         <line x1="380" y1="140" x2="380" y2="100" stroke="#c8a96e" stroke-width="0.8" stroke-dasharray="4 3"/>
-        <!-- dimension lines -->
         <line x1="60" y1="170" x2="500" y2="170" stroke="#7eb8c8" stroke-width="0.5" stroke-dasharray="6 4" opacity="0.5"/>
         <text x="280" y="185" fill="#7eb8c8" font-size="8" text-anchor="middle" font-family="monospace" opacity="0.6">WHEELBASE PACKAGING</text>
       </svg>
@@ -519,15 +193,15 @@
     <div class="hero-stats">
       <div class="stat">
         <div class="stat-number">3.5+</div>
-        <div class="stat-label">Jahre OEM<br>Erfahrung</div>
+        <div class="stat-label" data-de="Jahre OEM<br>Erfahrung" data-en="Years OEM<br>Experience">Jahre OEM<br>Erfahrung</div>
       </div>
       <div class="stat">
-        <div class="stat-number">150+</div>
-        <div class="stat-label">Architektur<br>LOP's</div>
+        <div class="stat-number">208</div>
+        <div class="stat-label" data-de="Ergonomie<br>DVPs" data-en="Ergonomic<br>DVPs">Ergonomie<br>DVPs</div>
       </div>
       <div class="stat">
         <div class="stat-number">1</div>
-        <div class="stat-label">Patent<br>Anmeldung</div>
+        <div class="stat-label" data-de="Patent<br>Anmeldung" data-en="Patent<br>Filed">Patent<br>Anmeldung</div>
       </div>
     </div>
   </div>
@@ -536,49 +210,34 @@
 <!-- ABOUT -->
 <section id="about">
   <div>
-    <p class="section-tag reveal">// 01 — Profil</p>
-    <h2 class="reveal">Strukturiert.<br>Analytisch.<br><em>Lösungsorientiert.</em></h2>
+    <p class="section-tag reveal" data-de="// 01 — Profil" data-en="// 01 — Profile">// 01 — Profil</p>
+    <h2 class="reveal" data-de="Strukturiert.<br>Analytisch.<br><em>Lösungsorientiert.</em>" data-en="Structured.<br>Analytical.<br><em>Solution-driven.</em>">Strukturiert.<br>Analytisch.<br><em>Lösungsorientiert.</em></h2>
     <div class="about-body reveal">
-      <p>
-        Als <strong>Masterstudent im Maschinenbau</strong> an der TU Bergakademie Freiberg bringe ich über 3,5 Jahre OEM-Erfahrung bei <strong>Mahindra & Mahindra</strong> in der Gesamtfahrzeug- und Innenraumarchitektur mit.
-      </p>
-      <p>
-        Mein Arbeitsschwerpunkt liegt in der <strong>Konzeptphase der Fahrzeugentwicklung</strong>: Packaging, Raumplanung, Wettbewerbsanalyse und funktionsübergreifende Architekturabstimmung zwischen Design, BIW, Safety und Manufacturing.
-      </p>
-      <p>
-        Ich entwickle Ideen auf Basis des <strong>First-Principles-Ansatzes</strong>, überwinde Vorurteile und lerne kontinuierlich dazu — in technischen wie zwischenmenschlichen Kontexten.
-      </p>
+      <p data-de="Als <strong>Masterstudent im Maschinenbau</strong> an der TU Bergakademie Freiberg bringe ich über 3,5 Jahre OEM-Erfahrung bei <strong>Mahindra & Mahindra</strong> in der Gesamtfahrzeug- und Innenraumarchitektur mit — zuletzt als Senior Ingenieur am THAR Roxx SUV-Projekt." data-en="As a <strong>Master's student in Mechanical Engineering</strong> at TU Bergakademie Freiberg, I bring over 3.5 years of OEM experience at <strong>Mahindra & Mahindra</strong> in vehicle architecture and ergonomics — most recently as Senior Engineer on the THAR Roxx SUV project.">Als <strong>Masterstudent im Maschinenbau</strong> an der TU Bergakademie Freiberg bringe ich über 3,5 Jahre OEM-Erfahrung bei <strong>Mahindra & Mahindra</strong> in der Gesamtfahrzeug- und Innenraumarchitektur mit — zuletzt als Senior Ingenieur am THAR Roxx SUV-Projekt.</p>
+      <p data-de="Mein Arbeitsschwerpunkt liegt in der <strong>Konzeptphase der Fahrzeugentwicklung</strong>: Packaging, Ergonomie, Benchmarking und funktionsübergreifende Abstimmung zwischen Design, BIW, Safety und Manufacturing. Im Masterstudium erweitere ich meinen Horizont in Richtung <strong>CFD und numerische Simulation</strong>." data-en="My focus is the <strong>concept phase of vehicle development</strong>: packaging, ergonomics, benchmarking, and cross-functional coordination. In my Master's studies I am expanding into <strong>CFD and numerical simulation</strong>.">Mein Arbeitsschwerpunkt liegt in der <strong>Konzeptphase der Fahrzeugentwicklung</strong>: Packaging, Ergonomie, Benchmarking und funktionsübergreifende Abstimmung zwischen Design, BIW, Safety und Manufacturing. Im Masterstudium erweitere ich meinen Horizont in Richtung <strong>CFD und numerische Simulation</strong>.</p>
+      <p data-de="Ich entwickle Ideen nach dem <strong>First-Principles-Ansatz</strong>, überwinde Vorurteile und lerne kontinuierlich dazu — technisch wie zwischenmenschlich." data-en="I develop ideas using a <strong>first-principles approach</strong>, challenge assumptions, and continuously grow — technically and interpersonally.">Ich entwickle Ideen nach dem <strong>First-Principles-Ansatz</strong>, überwinde Vorurteile und lerne kontinuierlich dazu — technisch wie zwischenmenschlich.</p>
     </div>
     <div class="software-grid reveal">
-      <span class="sw-tag">CATIA V5</span>
-      <span class="sw-tag">3DExperience</span>
-      <span class="sw-tag">RAMSIS</span>
-      <span class="sw-tag">CAVA</span>
-      <span class="sw-tag">DMU</span>
-      <span class="sw-tag">Python</span>
-      <span class="sw-tag">MS Office</span>
-      <span class="sw-tag">Vicon</span>
-      <span class="sw-tag">Xsens</span>
-      <span class="sw-tag">A2MAC1</span>
+      <span class="sw-tag">CATIA V5</span><span class="sw-tag">3DExperience</span><span class="sw-tag">RAMSIS</span><span class="sw-tag">CAVA</span><span class="sw-tag">SPEOS</span><span class="sw-tag">DMU</span><span class="sw-tag">FLUENT</span><span class="sw-tag">OpenFOAM</span><span class="sw-tag">SolidWorks</span><span class="sw-tag">Python</span><span class="sw-tag">Minitab</span><span class="sw-tag">Vicon</span><span class="sw-tag">Xsens</span><span class="sw-tag">MS Office</span>
     </div>
   </div>
   <div>
     <div class="about-skills reveal">
-      <p class="section-tag" style="margin-bottom:1.5rem">// Kompetenzen</p>
+      <p class="section-tag" style="margin-bottom:1.5rem" data-de="// Kompetenzen" data-en="// Core Skills">// Kompetenzen</p>
       <div class="skill-item">
-        <div class="skill-label"><span>Fahrzeugpackaging & Ergonomie</span><span>95%</span></div>
+        <div class="skill-label"><span data-de="Fahrzeugpackaging & Ergonomie" data-en="Vehicle Packaging & Ergonomics">Fahrzeugpackaging & Ergonomie</span><span>95%</span></div>
         <div class="skill-bar"><div class="skill-fill" style="width:95%"></div></div>
       </div>
       <div class="skill-item">
-        <div class="skill-label"><span>DMU / Architektur-Reviews</span><span>90%</span></div>
+        <div class="skill-label"><span data-de="DMU / Architektur-Reviews" data-en="DMU / Architecture Reviews">DMU / Architektur-Reviews</span><span>90%</span></div>
         <div class="skill-bar"><div class="skill-fill" style="width:90%;animation-delay:0.1s"></div></div>
       </div>
       <div class="skill-item">
-        <div class="skill-label"><span>Benchmark & Wettbewerbsanalyse</span><span>88%</span></div>
+        <div class="skill-label"><span data-de="Benchmark & Wettbewerbsanalyse" data-en="Benchmarking & Competitive Analysis">Benchmark & Wettbewerbsanalyse</span><span>88%</span></div>
         <div class="skill-bar"><div class="skill-fill" style="width:88%;animation-delay:0.2s"></div></div>
       </div>
       <div class="skill-item">
-        <div class="skill-label"><span>Konzeptentwicklung (frühe Phase)</span><span>85%</span></div>
+        <div class="skill-label"><span data-de="Konzeptentwicklung (frühe Phase)" data-en="Concept Development (Early Phase)">Konzeptentwicklung (frühe Phase)</span><span>85%</span></div>
         <div class="skill-bar"><div class="skill-fill" style="width:85%;animation-delay:0.3s"></div></div>
       </div>
       <div class="skill-item">
@@ -586,12 +245,12 @@
         <div class="skill-bar"><div class="skill-fill" style="width:82%;animation-delay:0.4s"></div></div>
       </div>
       <div class="skill-item">
-        <div class="skill-label"><span>Interdisziplinäre Koordination</span><span>90%</span></div>
-        <div class="skill-bar"><div class="skill-fill" style="width:90%;animation-delay:0.5s"></div></div>
+        <div class="skill-label"><span>CFD (FLUENT / OpenFOAM)</span><span>75%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:75%;animation-delay:0.5s"></div></div>
       </div>
       <div class="skill-item">
-        <div class="skill-label"><span>Deutsch (B2) / English (C1)</span><span>Professionell</span></div>
-        <div class="skill-bar"><div class="skill-fill" style="width:75%;animation-delay:0.6s"></div></div>
+        <div class="skill-label"><span data-de="Deutsch (B2) / Englisch (C1)" data-en="German (B2) / English (C1)">Deutsch (B2) / Englisch (C1)</span><span data-de="Professionell" data-en="Professional">Professionell</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:78%;animation-delay:0.6s"></div></div>
       </div>
     </div>
   </div>
@@ -599,63 +258,65 @@
 
 <!-- EXPERIENCE -->
 <section id="experience">
-  <p class="section-tag reveal">// 02 — Berufserfahrung</p>
-  <h2 class="reveal">Werdegang &<br><em>Stationen</em></h2>
+  <p class="section-tag reveal" data-de="// 02 — Berufserfahrung" data-en="// 02 — Experience">// 02 — Berufserfahrung</p>
+  <h2 class="reveal" data-de="Werdegang &<br><em>Stationen</em>" data-en="Career &<br><em>Journey</em>">Werdegang &<br><em>Stationen</em></h2>
   <div class="timeline">
 
     <div class="timeline-item reveal">
-      <div class="timeline-date">Okt 2025<br>– Heute</div>
+      <div class="timeline-date" data-de="Okt 2025<br>– Heute" data-en="Oct 2025<br>– Present">Okt 2025<br>– Heute</div>
       <div class="timeline-line"></div>
       <div class="timeline-content">
         <div class="timeline-company">TU Bergakademie Freiberg</div>
-        <div class="timeline-role">Wissenschaftliche Hilfskraft — Autonome Systeme</div>
+        <div class="timeline-role" data-de="Wissenschaftliche Hilfskraft — Autonome Systeme" data-en="Research Assistant — Autonomous Systems">Wissenschaftliche Hilfskraft — Autonome Systeme</div>
         <ul class="timeline-bullets">
-          <li>Entwicklung ergonomischer Bewertungsmethoden für Fahrzeugergonomie und Bauraumbewertung</li>
-          <li>Motion-Capture-Experimente mit Vicon und Xsens (Körperhaltung, Gelenkkinematik)</li>
-          <li>Quantitative Analyse von Bewegungsdaten zur Unterstützung technischer Entwicklungsentscheidungen</li>
+          <li data-de="Entwicklung ergonomischer Bewertungsmethoden für Fahrzeugergonomie und Bauraumbewertung" data-en="Development of ergonomic evaluation methods for vehicle ergonomics and package assessment">Entwicklung ergonomischer Bewertungsmethoden für Fahrzeugergonomie und Bauraumbewertung</li>
+          <li data-de="Motion-Capture-Experimente mit Vicon und Xsens (Körperhaltung, Gelenkkinematik, Erreichbarkeitsräume)" data-en="Motion capture experiments with Vicon and Xsens (posture, joint kinematics, reach spaces)">Motion-Capture-Experimente mit Vicon und Xsens (Körperhaltung, Gelenkkinematik, Erreichbarkeitsräume)</li>
+          <li data-de="Quantitative Analyse von Bewegungsdaten zu datenbasierten Kennzahlen für Entwicklungsentscheidungen" data-en="Quantitative analysis of motion data into data-driven metrics for development decisions">Quantitative Analyse von Bewegungsdaten zu datenbasierten Kennzahlen für Entwicklungsentscheidungen</li>
         </ul>
       </div>
     </div>
 
     <div class="timeline-item reveal">
-      <div class="timeline-date">Aug 2023<br>– Sep 2024</div>
+      <div class="timeline-date" data-de="Aug 2023<br>– Sep 2024" data-en="Aug 2023<br>– Sep 2024">Aug 2023<br>– Sep 2024</div>
       <div class="timeline-line"></div>
       <div class="timeline-content">
         <div class="timeline-company">Mahindra & Mahindra — Senior Engineer</div>
-        <div class="timeline-role">Gesamtfahrzeugarchitektur & Ergonomie</div>
+        <div class="timeline-role" data-de="Gesamtfahrzeugarchitektur & Ergonomie" data-en="Vehicle Architecture & Ergonomics">Gesamtfahrzeugarchitektur & Ergonomie</div>
         <ul class="timeline-bullets">
-          <li>Konzeptionelle Auslegung von Innenraumarchitekturen und Insassen-Packages für Serienfahrzeuge</li>
-          <li>Moderation von Architektur-Reviews (DMU, CAS, VR) mit strukturierter Entscheidungsdokumentation</li>
-          <li>Analyse von &gt;200 Design Verification Plans zur datenbasierten Architekturentscheidung</li>
-          <li>Ableitung und Weiterentwicklung von Architektur- und Ergonomie-Standards</li>
+          <li data-de="Leitung der Fahrzeugarchitektur-Finalisierung für den THAR Roxx (5-Sitzer Family SUV)" data-en="Led vehicle architecture finalization for THAR Roxx, a 5-seater family SUV">Leitung der Fahrzeugarchitektur-Finalisierung für den THAR Roxx (5-Sitzer Family SUV)</li>
+          <li data-de="Lieferung von 208 Ergonomie-DVPs: Usability, Sichtbarkeit, Erreichbarkeit und Ergonomie" data-en="Delivered 208 ergonomic DVPs: usability, visibility, reachability, and ergonomics">Lieferung von 208 Ergonomie-DVPs: Usability, Sichtbarkeit, Erreichbarkeit und Ergonomie</li>
+          <li data-de="Moderation von Architektur-Reviews (DMU, CAS, VR) mit strukturierter Entscheidungsdokumentation" data-en="Facilitated architecture reviews (DMU, CAS, VR) with structured decision documentation">Moderation von Architektur-Reviews (DMU, CAS, VR) mit strukturierter Entscheidungsdokumentation</li>
+          <li data-de="Erstellung eines virtuellen Homologationsdokuments (IRVM, ORVM, Pedestrian Protection, Vision Zones) mit CAVA" data-en="Created virtual homologation document (IRVM, ORVM, pedestrian protection, vision zones) using CAVA">Erstellung eines virtuellen Homologationsdokuments (IRVM, ORVM, Pedestrian Protection, Vision Zones) mit CAVA</li>
+          <li data-de="Entwicklung von Ergonomie-Standards und Richtlinien für Fahrzeuginnenraumparameter" data-en="Developed ergonomic standards and guidelines for vehicle interior architecture parameters">Entwicklung von Ergonomie-Standards und Richtlinien für Fahrzeuginnenraumparameter</li>
         </ul>
       </div>
     </div>
 
     <div class="timeline-item reveal">
-      <div class="timeline-date">Mär 2022<br>– Aug 2023</div>
+      <div class="timeline-date" data-de="Mär 2022<br>– Aug 2023" data-en="Mar 2022<br>– Aug 2023">Mär 2022<br>– Aug 2023</div>
       <div class="timeline-line"></div>
       <div class="timeline-content">
         <div class="timeline-company">Mahindra & Mahindra — Engineer</div>
-        <div class="timeline-role">Gesamtfahrzeugarchitektur & Ergonomie</div>
+        <div class="timeline-role" data-de="Insassen-Packaging & Ergonomie" data-en="Occupant Packaging & Ergonomics">Insassen-Packaging & Ergonomie</div>
         <ul class="timeline-bullets">
-          <li>Koordination von über 150 Architektur- und Packaging LOPs zur Sicherstellung der Serienreife</li>
-          <li>Strukturierte Benchmark- und Wettbewerbsanalysen (Einstiegshöhen, Sitzgeometrie, Insassen-Hardpoints)</li>
-          <li>Erstellung eines Architektur-Zielbuchs auf Basis von A2MAC1 und CARESOFT Benchmark-Datenbank</li>
+          <li data-de="Lösung von ~200 Engineering-Issues unter Wahrung des Designthemas" data-en="Resolved ~200 engineering issues while maintaining the design theme">Lösung von ~200 Engineering-Issues unter Wahrung des Designthemas</li>
+          <li data-de="Entwicklung von 3 Step-In-Höhen-Prototypen; Finalisierung und Standardisierung für Folgeprojekte" data-en="Developed 3 step-in height prototypes; finalized and standardized for future projects">Entwicklung von 3 Step-In-Höhen-Prototypen; Finalisierung und Standardisierung für Folgeprojekte</li>
+          <li data-de="Optimierung der Panorama-Schiebedachöffnung unter Beibehaltung der Gemeinsamkeit über drei Dachvarianten" data-en="Optimized panoramic sunroof opening while maintaining commonality across three roof variants">Optimierung der Panorama-Schiebedachöffnung unter Beibehaltung der Gemeinsamkeit über drei Dachvarianten</li>
+          <li data-de="Entwicklung von 15 Standards für kritische Insassenparameter (Fahrer-Dreieck, Haltegriff-Position, Ladevolumen)" data-en="Developed 15 standards for critical occupant parameters (driver triangle, grab handle, cargo volume)">Entwicklung von 15 Standards für kritische Insassenparameter (Fahrer-Dreieck, Haltegriff-Position, Ladevolumen)</li>
         </ul>
       </div>
     </div>
 
     <div class="timeline-item reveal">
-      <div class="timeline-date">Mär 2021<br>– Mär 2022</div>
+      <div class="timeline-date" data-de="Mär 2021<br>– Mär 2022" data-en="Mar 2021<br>– Mar 2022">Mär 2021<br>– Mär 2022</div>
       <div class="timeline-line"></div>
       <div class="timeline-content">
-        <div class="timeline-company">Mahindra & Mahindra — Trainee</div>
-        <div class="timeline-role">Gesamtfahrzeugarchitektur & Ergonomie</div>
+        <div class="timeline-company">Mahindra & Mahindra — Graduate Engineer Trainee</div>
+        <div class="timeline-role" data-de="Gesamtfahrzeugarchitektur & Ergonomie" data-en="Vehicle Architecture & Ergonomics">Gesamtfahrzeugarchitektur & Ergonomie</div>
         <ul class="timeline-bullets">
-          <li>DMU-basierte Layout-Bewertungen für Fahrzeuglayout- und Innenraumstudien in der Frühphase</li>
-          <li>Erstellung einer Abhängigkeitsmatrix für Architektur- und Ergonomieparameter (SAE J1100)</li>
-          <li>Datenbasierte Vergleichs- und Bewertungsmethoden zur Entscheidungsunterstützung</li>
+          <li data-de="Insassen-Hardpoint-Mapping für Fahrzeuginnenraum-Packages" data-en="Developed occupant hardpoint mapping for vehicle interior packages">Insassen-Hardpoint-Mapping für Fahrzeuginnenraum-Packages</li>
+          <li data-de="Statistische Methode zur vergleichenden Jury-Analyse von Ergonomieparametern (XUV 300, THAR)" data-en="Developed statistical method for comparative jury analysis of ergonomic parameters (XUV 300, THAR)">Statistische Methode zur vergleichenden Jury-Analyse von Ergonomieparametern (XUV 300, THAR)</li>
+          <li data-de="Analyse und Zielsetzung kritischer J1100-Parameter mit statistischen Methoden" data-en="Analyzed and set targets for critical SAE J1100 parameters using statistical methods">Analyse und Zielsetzung kritischer J1100-Parameter mit statistischen Methoden</li>
         </ul>
       </div>
     </div>
@@ -665,50 +326,71 @@
 
 <!-- PROJECTS -->
 <section id="projects">
-  <p class="section-tag reveal">// 03 — Projekte</p>
-  <h2 class="reveal">Ausgewählte<br><em>Arbeiten</em></h2>
+  <p class="section-tag reveal" data-de="// 03 — Projekte" data-en="// 03 — Projects">// 03 — Projekte</p>
+  <h2 class="reveal" data-de="Ausgewählte<br><em>Arbeiten</em>" data-en="Selected<br><em>Works</em>">Ausgewählte<br><em>Arbeiten</em></h2>
   <div class="projects-grid reveal">
 
     <div class="project-card">
       <div class="project-num">01</div>
-      <div class="project-title">Akkucontainer-Design — FSAE</div>
-      <p class="project-desc">Entwicklung und Auslegung eines Hochvolt-Akkumulatorgehäuses für das Racetech Racing Team Freiberg. Packaging, Sicherheit, Fertigungsfähigkeit und Systemintegration im Fokus.</p>
-      <div class="project-tag">Seit Apr 2025 · Laufend</div>
+      <div class="project-title" data-de="FSAE — HV-Akkucontainer Design" data-en="FSAE — HV Battery Container Design">FSAE — HV-Akkucontainer Design</div>
+      <p class="project-desc" data-de="Auslegung eines Hochvolt-Akkumulatorgehäuses für das Racetech Racing Team Freiberg. Strukturelle Anordnung, Montagekonzept, Packaging, Sicherheit und Integration in den Fahrzeugrahmen." data-en="Design of a high-voltage battery container for Racetech Racing Team Freiberg. Structural arrangement, assembly concept, packaging, safety, and integration into the vehicle frame.">Auslegung eines Hochvolt-Akkumulatorgehäuses für das Racetech Racing Team Freiberg. Strukturelle Anordnung, Montagekonzept, Packaging, Sicherheit und Integration in den Fahrzeugrahmen.</p>
+      <div class="project-tag" data-de="Seit Apr 2025 · Laufend" data-en="Since Apr 2025 · Ongoing">Seit Apr 2025 · Laufend</div>
     </div>
 
     <div class="project-card">
       <div class="project-num">02</div>
-      <div class="project-title">Modulares Schiebedach — Patent</div>
-      <p class="project-desc">Entwicklung eines skalierbaren Panorama-Schiebedachkonzepts mit variablen Längen zur plattformübergreifenden Anwendung. Patentanmeldung eingereicht (Nr.: 202441074881).</p>
-      <div class="project-tag">Mahindra · 2024</div>
+      <div class="project-title" data-de="CFD — Zweistoffzerstäuber (ANSYS Fluent)" data-en="CFD — Twin-Fluid Atomizer (ANSYS Fluent)">CFD — Zweistoffzerstäuber (ANSYS Fluent)</div>
+      <p class="project-desc" data-de="3D-Nozzle-Geometrie in SolidWorks, tetraedrisches Netz mit 3,2 Mio. Elementen. Transiente Mehrphasen-Simulation (k-ω SST + DPM Air-Blast Breakup). Parametrische Studie: 4–6 bar, 1–10 mPa·s. Nachweis der Tropfengrößenreduktion bei steigendem Luftdruck." data-en="3D nozzle geometry in SolidWorks, tetrahedral mesh with 3.2M elements. Transient multiphase simulation (k-ω SST + DPM Air-Blast Breakup). Parametric study: 4–6 bar, 1–10 mPa·s. Demonstrated droplet size reduction with increasing air pressure.">3D-Nozzle-Geometrie in SolidWorks, tetraedrisches Netz mit 3,2 Mio. Elementen. Transiente Mehrphasen-Simulation (k-ω SST + DPM Air-Blast Breakup). Parametrische Studie: 4–6 bar, 1–10 mPa·s. Nachweis der Tropfengrößenreduktion bei steigendem Luftdruck.</p>
+      <div class="project-tag">TU Freiberg · 2025</div>
     </div>
 
     <div class="project-card">
       <div class="project-num">03</div>
-      <div class="project-title">1D-NVH-Simulation — FISITA</div>
-      <p class="project-desc">Modellbasierter Ansatz zur strukturierten Bewertung architekturrelevanter Trade-offs (NVH, Steifigkeit, Gewicht, Package) für frühe Konzeptphasen. Veröffentlicht beim FISITA World Congress.</p>
-      <div class="project-tag">FISITA · 2021</div>
+      <div class="project-title" data-de="CFD — Transsonische Turbinenkaskade (LS89)" data-en="CFD — Transonic Turbine Cascade (LS89)">CFD — Transsonische Turbinenkaskade (LS89)</div>
+      <p class="project-desc" data-de="Validierungsstudie kompressibler Strömungen (Ma 0,8–1,02) mit dichtebasiertem Solver. Stoßwellenanalyse, Mesh-Sensitivitätsstudie. Validierung der isentropen Machzahlverteilung und des Verlustkoeffizienten mit experimentellen Referenzdaten." data-en="Validation study of compressible flow (Ma 0.8–1.02) using a density-based solver. Shock wave analysis, mesh sensitivity study. Validated isentropic Mach number distribution and loss coefficient against experimental reference data.">Validierungsstudie kompressibler Strömungen (Ma 0,8–1,02) mit dichtebasiertem Solver. Stoßwellenanalyse, Mesh-Sensitivitätsstudie. Validierung der isentropen Machzahlverteilung und des Verlustkoeffizienten mit experimentellen Referenzdaten.</p>
+      <div class="project-tag">TU Freiberg · 2025–26</div>
     </div>
 
     <div class="project-card">
       <div class="project-num">04</div>
-      <div class="project-title">Baja ATV — Chassis</div>
-      <p class="project-desc">Entwurf, Fertigung und Test eines Geländewagen-Fahrgestells. FE-Simulationen für Frontal-, Überschlag- und Seitenaufprallunfälle. Validierung mit Wägezellen und Beschleunigungsmessern.</p>
-      <div class="project-tag">GCT Coimbatore · 2019</div>
+      <div class="project-title" data-de="Patent — Modulares Schiebedach" data-en="Patent — Modular Sunroof Assembly">Patent — Modulares Schiebedach</div>
+      <p class="project-desc" data-de="Skalierbares Panorama-Schiebedachkonzept mit variablen Längen für plattformübergreifende Anwendung in CATIA entwickelt. Optimierung unter Beibehaltung der Gemeinsamkeit über drei Dachvarianten. Patentanmeldung Nr.: 202441074881." data-en="Scalable panoramic sunroof concept with variable lengths for multi-platform use, developed in CATIA. Optimized opening while maintaining commonality across three roof variants. Patent filed (No.: 202441074881).">Skalierbares Panorama-Schiebedachkonzept mit variablen Längen für plattformübergreifende Anwendung in CATIA entwickelt. Optimierung unter Beibehaltung der Gemeinsamkeit über drei Dachvarianten. Patentanmeldung Nr.: 202441074881.</p>
+      <div class="project-tag">Mahindra · 2024</div>
     </div>
 
     <div class="project-card">
       <div class="project-num">05</div>
-      <div class="project-title">SAE Traktor — Chassis (1. Platz)</div>
-      <p class="project-desc">Entwurf, Fertigung und FEM-Analyse eines Fachwerkrahmens für einen 17-HP-Minitraktor (SOLIDWORKS + ANSYS Workbench). Erster Platz im Wettbewerb.</p>
+      <div class="project-title" data-de="Publikation — 1D-NVH Cross-Car-Beam (FISITA)" data-en="Publication — 1D NVH Cross-Car-Beam (FISITA)">Publikation — 1D-NVH Cross-Car-Beam (FISITA)</div>
+      <p class="project-desc" data-de="Vereinfachtes 1D-Systemmodell zur Bewertung architekturrelevanter Trade-offs (NVH, Steifigkeit, Gewicht, Package) am Cross-Car-Beam. Einsatz als Entscheidungshilfe in der Konzeptphase. Veröffentlicht beim FISITA World Congress." data-en="Simplified 1D system model for evaluating architecture-relevant trade-offs (NVH, stiffness, weight, package) on the cross-car beam. Used as a decision support tool in the concept phase. Published at FISITA World Congress.">Vereinfachtes 1D-Systemmodell zur Bewertung architekturrelevanter Trade-offs (NVH, Steifigkeit, Gewicht, Package) am Cross-Car-Beam. Einsatz als Entscheidungshilfe in der Konzeptphase. Veröffentlicht beim FISITA World Congress.</p>
+      <div class="project-tag">FISITA · 2021</div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-num">06</div>
+      <div class="project-title" data-de="Baja ATV — Chassis (SAE)" data-en="Baja ATV — Chassis (SAE)">Baja ATV — Chassis (SAE)</div>
+      <p class="project-desc" data-de="Entwurf, Fertigung und Test eines Geländewagen-Fahrgestells. FE-Simulationen für Frontal-, Überschlag- und Seitenaufprall. Validierung mit Wägezellen und Beschleunigungsmessern. Technischer Leiter des Baja Student Teams, 2 Jahre als Jury-Mitglied bei SAE." data-en="Designed, manufactured and tested an all-terrain vehicle chassis. FE simulations for frontal, rollover, and side impact. Validated using load cells and accelerometers. Chassis lead and technical head; SAE jury member for 2 years.">Entwurf, Fertigung und Test eines Geländewagen-Fahrgestells. FE-Simulationen für Frontal-, Überschlag- und Seitenaufprall. Validierung mit Wägezellen und Beschleunigungsmessern. Technischer Leiter des Baja Student Teams, 2 Jahre als Jury-Mitglied bei SAE.</p>
+      <div class="project-tag">GCT Coimbatore · 2019</div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-num">07</div>
+      <div class="project-title" data-de="SAE Traktor — 1. Platz (Gesamt)" data-en="SAE Tractor — 1st Place (Overall)">SAE Traktor — 1. Platz (Gesamt)</div>
+      <p class="project-desc" data-de="Entwurf, Fertigung und FEM-Analyse eines nicht-konventionellen Fachwerkrahmens für einen 17-HP-Minitraktor (SOLIDWORKS + ANSYS Workbench). Erster Platz in der Gesamtwertung, bestem Design und bester Manövrierbarkeit." data-en="Designed, manufactured, and FEM-analyzed a non-conventional space frame for a 17HP mini tractor (SOLIDWORKS + ANSYS Workbench). 1st place in overall ranking, best design, and best maneuverability.">Entwurf, Fertigung und FEM-Analyse eines nicht-konventionellen Fachwerkrahmens für einen 17-HP-Minitraktor (SOLIDWORKS + ANSYS Workbench). Erster Platz in der Gesamtwertung, bestem Design und bester Manövrierbarkeit.</p>
       <div class="project-tag">SAE · 2018</div>
     </div>
 
-    <div class="project-card" style="display:flex;align-items:center;justify-content:center;min-height:220px;">
-      <div style="text-align:center">
-        <div style="font-family:'DM Serif Display',serif;font-size:2rem;color:var(--muted);margin-bottom:0.5rem">→</div>
-        <div style="font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted)">Weitere Projekte<br>auf Anfrage</div>
-      </div>
+    <div class="project-card">
+      <div class="project-num">08</div>
+      <div class="project-title" data-de="Kupplungsverschleiß-Indikator" data-en="Clutch Wear Indicator">Kupplungsverschleiß-Indikator</div>
+      <p class="project-desc" data-de="Entwicklung eines Kupplungsverschleiß-Indikators durch Analyse des Drehmomentverlustes mittels Kraftmessdosen. Demonstration an einer Zweirad-Mehrscheibenkupplung mit guter Korrelation zu theoretischen Modellen." data-en="Developed a clutch wear indicator by analyzing torque loss using load cells on input and output shafts. Demonstrated on a two-wheeler multi-plate clutch system with strong correlation to theory.">Entwicklung eines Kupplungsverschleiß-Indikators durch Analyse des Drehmomentverlustes mittels Kraftmessdosen. Demonstration an einer Zweirad-Mehrscheibenkupplung mit guter Korrelation zu theoretischen Modellen.</p>
+      <div class="project-tag">GCT · 2019</div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-num">09</div>
+      <div class="project-title" data-de="Bohrparameter-Optimierung Al-B4C (Taguchi)" data-en="Drilling Optimization Al-B4C (Taguchi)">Bohrparameter-Optimierung Al-B4C (Taguchi)</div>
+      <p class="project-desc" data-de="Optimierung der Bohrparameter für eine Al-B4C-Legierung (Luft- und Raumfahrtstrukturen) mittels Taguchi-Methode. Ermittlung der optimalen Zusammensetzung für beste Bohrergebnisse." data-en="Optimized drilling parameters for an Al-B4C alloy (used in aerospace structures) using the Taguchi method. Identified optimal composition for best drilling performance.">Optimierung der Bohrparameter für eine Al-B4C-Legierung (Luft- und Raumfahrtstrukturen) mittels Taguchi-Methode. Ermittlung der optimalen Zusammensetzung für beste Bohrergebnisse.</p>
+      <div class="project-tag">Best Flow Line Equipment · 2020</div>
     </div>
 
   </div>
@@ -716,20 +398,20 @@
 
 <!-- EDUCATION -->
 <section id="education">
-  <p class="section-tag reveal">// 04 — Bildung</p>
-  <h2 class="reveal">Akademischer<br><em>Werdegang</em></h2>
+  <p class="section-tag reveal" data-de="// 04 — Bildung" data-en="// 04 — Education">// 04 — Bildung</p>
+  <h2 class="reveal" data-de="Akademischer<br><em>Werdegang</em>" data-en="Academic<br><em>Background</em>">Akademischer<br><em>Werdegang</em></h2>
   <div class="edu-grid reveal">
     <div class="edu-card">
       <div class="edu-school">TU Bergakademie Freiberg</div>
-      <div class="edu-degree">M.Sc. Maschinenbau &<br>Verfahrenstechnik</div>
-      <div class="edu-period">Okt 2024 – Laufend · Freiberg, DE</div>
-      <div class="edu-topics">Schwerpunkte: Komponentendesign · CFD · Prozessentwicklung · Wärmetechnik</div>
+      <div class="edu-degree" data-de="M.Sc. Maschinenbau &<br>Verfahrenstechnik" data-en="M.Sc. Mechanical &<br>Process Engineering">M.Sc. Maschinenbau &<br>Verfahrenstechnik</div>
+      <div class="edu-period" data-de="Okt 2024 – Laufend · Freiberg, DE" data-en="Oct 2024 – Present · Freiberg, DE">Okt 2024 – Laufend · Freiberg, DE</div>
+      <div class="edu-topics" data-de="Komponentendesign · CFD · Prozessentwicklung · Wärmetechnik · FEM" data-en="Component Design · CFD · Process Development · Heat Transfer · FEM">Komponentendesign · CFD · Prozessentwicklung · Wärmetechnik · FEM</div>
     </div>
     <div class="edu-card">
       <div class="edu-school">Government College of Technology</div>
-      <div class="edu-degree">B.E. Maschinenbau</div>
-      <div class="edu-period">Jun 2016 – Sep 2020 · Coimbatore, IN</div>
-      <div class="edu-topics">Schwerpunkte: Automobiltechnik · Strömungslehre · Materialwissenschaft</div>
+      <div class="edu-degree" data-de="B.E. Maschinenbau · GPA: 8,78/10" data-en="B.E. Mechanical Engineering · GPA: 8.78/10">B.E. Maschinenbau · GPA: 8,78/10</div>
+      <div class="edu-period" data-de="Jun 2016 – Sep 2020 · Coimbatore, IN" data-en="Jun 2016 – Sep 2020 · Coimbatore, IN">Jun 2016 – Sep 2020 · Coimbatore, IN</div>
+      <div class="edu-topics" data-de="Automobiltechnik · Strömungslehre · Materialwissenschaft · Konstruktion" data-en="Automotive Engineering · Fluid Mechanics · Materials Science · Design for Manufacture">Automobiltechnik · Strömungslehre · Materialwissenschaft · Konstruktion</div>
     </div>
   </div>
 </section>
@@ -737,32 +419,77 @@
 <!-- CONTACT -->
 <section id="contact">
   <div>
-    <p class="section-tag reveal">// 05 — Kontakt</p>
-    <h2 class="reveal">Lassen Sie uns<br><em>sprechen.</em></h2>
-    <p class="reveal" style="color:var(--muted);line-height:1.8;max-width:38ch;font-size:0.95rem">
+    <p class="section-tag reveal" data-de="// 05 — Kontakt" data-en="// 05 — Contact">// 05 — Kontakt</p>
+    <h2 class="reveal" data-de="Lassen Sie uns<br><em>sprechen.</em>" data-en="Let's<br><em>connect.</em>">Lassen Sie uns<br><em>sprechen.</em></h2>
+    <p class="reveal" style="color:var(--muted);line-height:1.8;max-width:38ch;font-size:0.95rem"
+      data-de="Ich bin offen für spannende Positionen in der Fahrzeugentwicklung, Architektur oder Ergonomie — gerne in Deutschland oder international."
+      data-en="I am open to exciting opportunities in vehicle development, architecture, or ergonomics — in Germany or internationally.">
       Ich bin offen für spannende Positionen in der Fahrzeugentwicklung, Architektur oder Ergonomie — gerne in Deutschland oder international.
     </p>
   </div>
   <div class="contact-links reveal">
+    <a href="mailto:perumalsivanpillai@gmail.com" class="contact-link">
+      <div class="contact-icon">✉</div>
+      perumalsivanpillai@gmail.com
+    </a>
     <a href="https://linkedin.com/in/lekshmana" target="_blank" class="contact-link">
       <div class="contact-icon">in</div>
       linkedin.com/in/lekshmana
     </a>
     <a href="#" class="contact-link" style="border-bottom:none;">
       <div class="contact-icon">📍</div>
-      Freiberg, Sachsen · Deutschland
+      <span data-de="Freiberg, Sachsen · Deutschland" data-en="Freiberg, Saxony · Germany">Freiberg, Sachsen · Deutschland</span>
     </a>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <span>© 2025 Lekshmana Perumal Sivanpillai</span>
-  <span>Fahrzeugarchitektur · Ergonomie · Packaging</span>
+  <span data-de="Fahrzeugarchitektur · Ergonomie · Packaging" data-en="Vehicle Architecture · Ergonomics · Packaging">Fahrzeugarchitektur · Ergonomie · Packaging</span>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-  // Scroll reveal
+<script>
+  let currentLang = 'de';
+  let isLight = false;
+
+  function applyLang(lang) {
+    currentLang = lang;
+    document.querySelectorAll('[data-' + lang + ']').forEach(el => {
+      el.innerHTML = el.getAttribute('data-' + lang);
+    });
+    document.getElementById('btnDE').classList.toggle('active', lang === 'de');
+    document.getElementById('btnEN').classList.toggle('active', lang === 'en');
+    document.documentElement.lang = lang;
+    updateToggleLabel();
+  }
+
+  function updateToggleLabel() {
+    const label = document.getElementById('toggleLabel');
+    if (currentLang === 'de') label.textContent = isLight ? 'Dunkel' : 'Hell';
+    else label.textContent = isLight ? 'Dark' : 'Light';
+  }
+
+  document.getElementById('btnDE').addEventListener('click', () => applyLang('de'));
+  document.getElementById('btnEN').addEventListener('click', () => applyLang('en'));
+
+  const track = document.getElementById('toggleTrack');
+  document.getElementById('themeToggle').addEventListener('click', () => {
+    isLight = !isLight;
+    document.documentElement.classList.toggle('light', isLight);
+    track.classList.toggle('active', isLight);
+    updateToggleLabel();
+  });
+
   const reveals = document.querySelectorAll('.reveal');
   const obs = new IntersectionObserver(entries => {
-    entries.fo
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
